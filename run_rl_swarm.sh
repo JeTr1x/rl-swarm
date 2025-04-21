@@ -117,9 +117,9 @@ if [ "$CONNECT_TO_TESTNET" = "True" ]; then
     yarn install
     yarn dev > /dev/null 2>&1 & # Run in background and suppress output
 
-    #SERVER_PID=$!  # Store the process ID
-    #echo "Started server process: $SERVER_PID"
-    #sleep 5
+    SERVER_PID=$!  # Store the process ID
+    echo "Started server process: $SERVER_PID"
+    sleep 5
     
     # Try to open the URL in the default browser
     #if open http://localhost:3000 2>/dev/null; then
