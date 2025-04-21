@@ -94,7 +94,7 @@ if [ "$CONNECT_TO_TESTNET" = "True" ]; then
     echo "Please login to create an Ethereum Server Wallet"
     cd modal-login
     # Check if the yarn command exists; if not, install Yarn.
-    source ~/.bashrc
+    # source ~/.bashrc
 
     # Node.js + NVM setup
     if ! command -v node >/dev/null 2>&1; then
@@ -125,24 +125,24 @@ if [ "$CONNECT_TO_TESTNET" = "True" ]; then
         fi
     fi
     yarn install
-    yarn dev > /dev/null 2>&1 & # Run in background and suppress output
+    # yarn dev > /dev/null 2>&1 & # Run in background and suppress output
 
-    SERVER_PID=$!  # Store the process ID
-    echo "Started server process: $SERVER_PID"
-    sleep 5
+    #SERVER_PID=$!  # Store the process ID
+    #echo "Started server process: $SERVER_PID"
+    #sleep 5
     
     # Try to open the URL in the default browser
-    if open http://localhost:3000 2>/dev/null; then
-        echo_green ">> Successfully opened http://localhost:3000 in your default browser."
-    else
-        echo ">> Failed to open http://localhost:3000. Please open it manually."
-    fi
+    #if open http://localhost:3000 2>/dev/null; then
+    #    echo_green ">> Successfully opened http://localhost:3000 in your default browser."
+    #else
+    #    echo ">> Failed to open http://localhost:3000. Please open it manually."
+    #fi
     
     cd ..
 
     echo_green ">> Waiting for modal userData.json to be created..."
     while [ ! -f "modal-login/temp-data/userData.json" ]; do
-        sleep 5  # Wait for 5 seconds before checking again
+        sleep 1  # Wait for 5 seconds before checking again
     done
     echo "Found userData.json. Proceeding..."
 
@@ -164,7 +164,7 @@ if [ "$CONNECT_TO_TESTNET" = "True" ]; then
 fi
 
 pip_install() {
-    pip install --disable-pip-version-check -q -r "$1"
+    pip install --disable-pip-version-check -r "$1"
 }
 
 echo_green ">> Getting requirements..."
@@ -189,15 +189,7 @@ HF_TOKEN=${HF_TOKEN:-""}
 if [ -n "${HF_TOKEN}" ]; then # Check if HF_TOKEN is already set and use if so. Else give user a prompt to choose.
     HUGGINGFACE_ACCESS_TOKEN=${HF_TOKEN}
 else
-    echo -en $GREEN_TEXT
-    read -p ">> Would you like to push models you train in the RL swarm to the Hugging Face Hub? [y/N] " yn
-    echo -en $RESET_TEXT
-    yn=${yn:-N} # Default to "N" if the user presses Enter
-    case $yn in
-        [Yy]*) read -p "Enter your Hugging Face access token: " HUGGINGFACE_ACCESS_TOKEN ;;
-        [Nn]*) HUGGINGFACE_ACCESS_TOKEN="None" ;;
-        *) echo ">>> No answer was given, so NO models will be pushed to Hugging Face Hub" && HUGGINGFACE_ACCESS_TOKEN="None" ;;
-    esac
+    HUGGINGFACE_ACCESS_TOKEN="None"
 fi
 
 echo_green ">> Good luck in the swarm!"
